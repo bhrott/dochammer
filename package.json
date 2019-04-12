@@ -1,0 +1,26 @@
+{
+  "name": "dochammer",
+  "version": "1.0.1",
+  "description": "Project documentation made easy and fun",
+  "main": "dochammer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benhurott/dochammer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benhurott/dochammer/issues"
+  },
+  "homepage": "https://github.com/benhurott/dochammer#readme",
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "glob": "^7.1.3"
+  },
+  "bin": {
+    "dochammer": "./dochammer.js"
+  }
+}

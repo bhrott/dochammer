@@ -1,0 +1,8 @@
+{
+  "variables": {
+    "api_url": "http://api.com"
+  },
+  "output_dir": "./docs",
+  "input_dir": "./playground",
+  "file_ext": "doc.md"
+}
