@@ -14,23 +14,21 @@ readFiles()
 generatePages()
 
 function loadConfig() {
-  config = JSON.parse(
-    fs.readFileSync(
-      path.resolve(
-        process.cwd(),
-        'dochammer.config.json'
-      )
-    ).toString()
+  config = require(
+    path.resolve(
+      process.cwd(),
+      'dochammer.config.js'
+    )
   )
 }
 
 function clean() {
-  fse.removeSync(config.output_dir)
-  fse.ensureDirSync(config.output_dir)
+  fse.removeSync(config.outputDir)
+  fse.ensureDirSync(config.outputDir)
 }
 
 function readFiles() {
-  const fileSearchPattern = `${config.input_dir}/**/*.${config.file_ext}`
+  const fileSearchPattern = `${config.inputDir}/**/*${config.inputFileExt}`
 
   const filesFound = glob.sync(fileSearchPattern)
 
@@ -79,12 +77,8 @@ function validateFile(file) {
     showError(`The file ${file.path} is a component and should have an "id".`)
   }
 
-  if (file.header.type === 'page' && !file.header.title) {
-    showError(`The file ${file.path} is a page and should have a "title".`)
-  }
-
-  if (file.header.type === 'page' && !file.header.section) {
-    showError(`The file ${file.path} is a page and should have a "section".`)
+  if (file.header.type === 'page' && !file.header.filename) {
+    showError(`The file ${file.path} is a page and should have a "filename".`)
   }
 }
 
@@ -124,34 +118,35 @@ function extractHeader(fileContent) {
 function generatePages() {
   const pages = files.filter(f => f.header.type === 'page')
 
-  let pageSections = {}
+  let pageFiles = {}
 
   for (let page of pages) {
     injectComponents(page)
     injectVariables(page)
 
-    const section = page.header.section
+    const filename = page.header.filename
 
-    if (!pageSections[section]) {
-      pageSections[section] = []
+    if (!pageFiles[filename]) {
+      pageFiles[filename] = []
     }
 
-    pageSections[page.header.section].push(page)
+    pageFiles[page.header.filename].push(page)
   }
 
-  const sectionKeys = Object.keys(pageSections)
+  const filenameKeys = Object.keys(pageFiles)
 
-  for (let secKey of sectionKeys) {
-    const fileName = path.resolve(
-      config.output_dir,
+  for (let secKey of filenameKeys) {
+    const fileFullPath = path.resolve(
+      config.outputDir,
       `${secKey}.md`
     )
 
-    const pages = pageSections[secKey]
+    const pages = pageFiles[secKey]
 
-    const sectionContent = pages.map(p => p.content).join('\n\n\n')
+    const fileContent = pages.map(p => p.content).join('\n\n\n')
 
-    fs.writeFileSync(fileName, sectionContent)
+    fse.ensureFileSync(fileFullPath)
+    fs.writeFileSync(fileFullPath, fileContent)
   }
 }
 
