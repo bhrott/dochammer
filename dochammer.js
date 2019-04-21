@@ -4,6 +4,7 @@ const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
 const glob = require('glob')
+const toc = require('markdown-toc')
 
 let config = null
 let files = []
@@ -143,7 +144,12 @@ function generatePages() {
 
     const pages = pageFiles[secKey]
 
-    const fileContent = pages.map(p => p.content).join('\n\n\n')
+    let fileContent = pages.map(p => p.content).join('\n\n\n')
+
+    if (config.includeTableOfContent) {
+      const tableOfContent = toc(fileContent).content
+      fileContent = `${tableOfContent}\n\n${fileContent}`
+    }
 
     fse.ensureFileSync(fileFullPath)
     fs.writeFileSync(fileFullPath, fileContent)
@@ -186,6 +192,10 @@ function injectComponents(file) {
 }
 
 function injectVariables(file) {
+  if (!config.variables) {
+    return
+  }
+  
   const fileContent = file.content
 
   const variableSearchPattern = '%{variable:'

@@ -62,3 +62,6 @@ typings/
 
 # docs
 docs/
+
+# others
+_test.js

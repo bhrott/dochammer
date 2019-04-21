@@ -2,7 +2,6 @@
 type: page
 filename: foo
 ---
-
 ## This is the page 2!
 
 Hey, this is a sample page.

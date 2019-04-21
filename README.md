@@ -11,18 +11,6 @@ The problem with this approach is because some times the members could forgot to
 
 The `dochammer` was created to have the `markdown` documentation side-by-side with your code **without** changing your code file (like jsdocs, etc).
 
-With `dochammer` you can create your code doc as:
-
-```
-+ services/
-  + user-service/
-    - user-service.js
-    - user-service.doc.md
-```
-
-And then you can generate the final documentation using a simple command line.
-
-
 ## Setup
 
 Install dochammer:
@@ -117,8 +105,6 @@ It will generate a folder named `docs` (that we configured  in the `dochammer.co
   - services.md
 ```
 
-
-
 ### Component
 
 Components are the best way to **reuse** documentation inside other documents.
@@ -201,6 +187,7 @@ To use it, you need to:
 ### Add the variables to dochammer.config.js
 
 ```js
+// dochammer.config.js
 module.exports = {
   variables: {
     api_url: 'http://api.com'
@@ -220,4 +207,18 @@ id: my-component
 Hey this is a component
 
 %{variable:api_url}
+```
+
+### Including a table of contents in pages
+
+Each generated page file can have an index guide if you want.
+
+To add the table of contents index, just add `includeTableOfContent` to your config file:
+
+```js
+// dochammer.config.js
+module.exports = {
+  includeTableOfContent: true,
+  //...
+}
 ```
