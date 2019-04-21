@@ -209,7 +209,7 @@ Hey this is a component
 %{variable:api_url}
 ```
 
-### Including a table of contents in pages
+## Including a table of contents in pages
 
 Each generated page file can have an index guide if you want.
 
